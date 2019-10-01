@@ -35,8 +35,8 @@ The complete ROSWELD project built up from the following repositories:
 
 For user and installation manuals, please visit [rosweld_documentation](https://github.com/PPM-Robotics-AS/rosweld_documentation) repository.
 - ROSWELD code documentation [html](https://github.com/PPM-Robotics-AS/rosweld_documentation) format
-- ROSWELD user documentation and installation manual [pdf](https://github.com/PPM-Robotics-AS/rosweld_documentation/pdf/ROSweld Documentation.pdf)
-- FlexGui 4.0 user manual [pdf](https://github.com/PPM-Robotics-AS/rosweld_documentation/pdf/FlexGui User Documentation.pdf)
+- ROSWELD user documentation and installation manual [pdf](https://github.com/PPM-Robotics-AS/rosweld_documentation/pdf/ROSweld%20Documentation.pdf)
+- FlexGui 4.0 user manual [pdf](https://github.com/PPM-Robotics-AS/rosweld_documentation/pdf/FlexGui%20User%20Documentation.pdf)
 
 ## License
 
