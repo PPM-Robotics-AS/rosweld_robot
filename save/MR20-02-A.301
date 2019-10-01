@@ -1,0 +1,4 @@
+'ROSWELD WPS Arc stop subprogram
+INCLUDE "WPSIO.INC"
+LETVI ARC_ON,0
+END

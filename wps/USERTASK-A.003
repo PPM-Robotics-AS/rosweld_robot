@@ -1,0 +1,107 @@
+REM "BCD ISignal Converter UserTask"
+INCLUDE "IOCONVERT.INC"
+INCLUDE "WPSIO.INC"
+
+REM "Copyright (C) 2018 PPM AS All rights reserved"
+
+REM "It will convert a 16 bits BCD coded value..."
+REM "...connected to 16 consecutive inputs..."
+REM "...defined by start number in the INC file (G_INPUTSTART)..."
+REM "...and loads it into the variable defined in the INC file (RETVAL)."
+REM "Furthermore, it will publish system date in (DATETIME) string variable."
+REM "Welding param reading"
+
+GOTO *READ
+
+'convert outputs to integer
+*CONVERT
+	G_ONES = I[G_INPUTSTART + 0]*1+I[G_INPUTSTART + 1]*2+I[G_INPUTSTART + 2]*4+I[G_INPUTSTART + 3]*8
+	IF (G_ONES > 9)
+	G_ONES = 9
+	ENDIF
+
+	G_TENS = I[G_INPUTSTART + 4]*10+I[G_INPUTSTART + 5]*20+I[G_INPUTSTART + 6]*40+I[G_INPUTSTART + 7]*80
+	IF (G_TENS > 90)
+	G_TENS = 90
+	ENDIF
+
+	G_HUNDREDS = I[G_INPUTSTART + 8]*100+I[G_INPUTSTART + 9]*200+I[G_INPUTSTART + 10]*400+I[G_INPUTSTART + 11]*800
+	IF (G_HUNDREDS > 900)
+	G_HUNDREDS = 900
+	ENDIF
+
+	G_THOUSANDS = I[G_INPUTSTART + 12]*1000+I[G_INPUTSTART + 13]*2000+I[G_INPUTSTART + 14]*4000+I[G_INPUTSTART + 15]*8000
+	IF (G_THOUSANDS > 9000)
+	G_THOUSANDS = 9000
+	ENDIF
+
+	G_RETVAL = G_ONES + G_TENS + G_HUNDREDS + G_THOUSANDS
+	L%[DESTVAL] = G_RETVAL
+
+	GOTO *READ
+	
+'read variables	
+*READ
+	
+	SWITCH NEXTGOTO
+		CASE _CURRENT
+		GOTO *CURRENT
+		CASE _VOLTAGE
+		GOTO *VOLTAGE
+		CASE _TIME
+		GOTO *TIME
+		CASE _SPCURRENT
+		GOTO *SPCURRENT
+		CASE _SPFEED
+		GOTO *SPFEED
+		CASE _SPSPEED
+		GOTO *SPSPEED
+	ENDS
+	
+	*CURRENT 'calculate current
+	G_INPUTSTART = 108
+	DESTVAL = 4
+	NEXTGOTO = _VOLTAGE
+	GOTO *CONVERT
+	
+	*VOLTAGE 'calculate voltage
+	G_INPUTSTART = 124
+	DESTVAL = 5
+	NEXTGOTO = _TIME
+	GOTO *CONVERT
+
+	*SPCURRENT 'calculate sp current
+	G_INPUTSTART = 60
+	DESTVAL = 6
+	NEXTGOTO = _SPFEED
+	GOTO *CONVERT
+	
+	*SPFEED 'calculate sp feed
+	G_INPUTSTART = 76
+	DESTVAL = 7
+	NEXTGOTO = _SPSPEED
+	GOTO *CONVERT
+	
+	*SPSPEED 'calculate sp speed
+	G_INPUTSTART = 92
+	DESTVAL = 8
+	NEXTGOTO = _TIME
+	RESET O48 'Start_welding
+	GOTO *CONVERT
+	
+	*TIME 'set read time
+	
+	IF START_WELDING_I 'IF START_WELDING_I
+		NEXTGOTO = _SPCURRENT 'Read SPs
+		GOTO *READ
+	ENDIF
+	
+	NEXTGOTO = _CURRENT
+	
+	'write global variables
+	CURR_A = L4%	'write current_A
+	VOLT_A = L5%	'write voltage_A
+	FEED_A = L3%    'write feed_A
+GOTO *READ
+
+END

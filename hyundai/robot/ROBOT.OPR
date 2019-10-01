@@ -1,0 +1,32 @@
+_ROBOT.OPR(Operation History Data) v01.00
+/*=====================================================*/
+  sec,[key-name] (click)
+  sec,+[key-name] (push down)
+  sec,           -[key-name] (push up)
+  sec,m[menu#] (select menu)
+/*=====================================================*/
+Date: 2019.01.06
+Time: 15:03
+Flag: [RunTo=0, JogInch=0, Enable=1, EmgStop=0, Remote=0, AutoMode=0, PlayBack=0, MotOn=0]
+Flag: [RunTo=0, JogInch=0, Enable=1, EmgStop=0, Remote=1, AutoMode=1, PlayBack=0, MotOn=0]
+  6,+[Power]
+  6,+[Power]
+Flag: [RunTo=0, JogInch=0, Enable=1, EmgStop=0, Remote=0, AutoMode=0, PlayBack=0, MotOn=0]
+  20,+[Mode.Sel1]
+  20,+[Mode.Sel2]
+  49,[P.Mod/REC]
+  53,+[SHIFT]
+  54,[PROG/STEP]
+  54,    -[SHIFT]
+  58,[P.Mod/REC]
+Time: 15:04
+  22,[Cmd.Input]
+  22,+[F6]-
+  27,+[F2]-
+  28,+[F1]
+  29,    -[F1]
+  31,+[F1]-
+  39,[ENTER]
+  52,[Up]
+  56,[Down]
+  56,[Up]

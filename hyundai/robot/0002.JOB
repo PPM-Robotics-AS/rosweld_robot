@@ -1,0 +1,29 @@
+Program File Format Version : 1.6  MechType: 98(HA006C-00)  TotalAxis: 6  AuxAxis: 0
+     *START
+     REM This IP is the other party's IP
+     ENET2.IP="192.168.56.100"
+     ENET2.RPORT=12350
+     ENET2.LPORT=12341
+     ENET2.OPEN 1
+     CLR_RBUF ENET2
+     IF ENET2.STATE<1 THEN *ERROR
+     *SEND
+     REM speed,x,y,z,rx,ry,rz,step,storedPoses,robotProgramState,j1,j2,j3,j4,j5,j6
+     PRINT ENET2,V4%,P*.X,P*.Y,P*.Z,P*.RX,P*.RY,P*.RZ,V5%,V3%,V6%,1,2,3,4,5,6;
+     DELAY 1
+     IF ENET2.STATE<1 THEN *ERROR ELSE *SEND
+     *ERROR
+     IF ENET2.STATE = -2 THEN
+     PRINT #0,"Ethernet device BIND failure"
+     ELSEIF ENET2.STATE = -1 THEN
+     PRINT #0,"UPD OPEN failure"
+     ELSEIF ENET2.STATE = 0 THEN
+     PRINT #0,"Not connected"
+     ELSE
+     PRINT #0,"Unknown error code:",ENET2.STATE
+     ENDIF
+     REM If the program is standing, here, there is an error
+     DELAY 2
+     GOTO *START
+     END
+

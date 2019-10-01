@@ -1,0 +1,158 @@
+REM "ROSweld main"
+REM "Copyright (C) 2018 PPM AS All rights reserved"
+REM "Balint Tahi, Csongor Horvath, Laszlo Nagy"
+INCLUDE "VAR"
+RESET O2000
+
+FORKMCR 1,9
+FORKMCR 2,9
+GOTO *RESTART
+
+*STARTERROR
+SET O2000
+END
+
+*RESTART
+'Create socket number 1 using UDP
+SOCKCREATE 1,1
+'Set the port of socket 1 to 8000
+SOCKBIND 1,8000
+'Wait for connection using socket 1, comm port 2, with no timeout
+SOCKWAIT 1,2,0
+*RECEIVE
+'Receive from socket 1, to buffer 1, 260 bytes, 0 timeout
+'V150% will contain the length of the data received
+'Delete the CMD_RD
+CMD_RD=0
+SOCKRECV 1,1,260,0,V150%
+'Goes to *ERROR if there is an error
+IF E1%<0 THEN *ERROR
+
+'Read the SEQ_RD sequence id from buffer 1 starting from byte 0
+GETINT 1, SEQ_RD, 0
+'Read the command id from buffer 1 starting from byte 4
+GETINT 1, CMD_RD, 4
+SWITCH CMD_RD
+CASE 1'Start playback or continue
+GOTO *PLAYBACK
+CASE 2'Store non-verify path
+GOTO *STORE
+CASE 4
+GOTO *SETSPEED
+CASE 5
+GOTO *ABORT
+CASE 6
+GOTO *SETPOSE
+CASE
+GOTO *ERROR
+ENDS
+'Receive the next packet
+GOTO *RECEIVE
+
+*RESPONSE
+	'Write the CMD_RD to buffer 2 starting from byte 0
+	SETINT  2, CMD_RD, 0
+	'Write the SEQ_RD to buffer 2 starting from byte 4
+	SETINT  2, SEQ_RD, 4
+	
+	'Send data using socket 1, buffer 2, size: 8 bytes, 
+	'timeout: 5s, sent data size (V150%) - not used
+	SOCKSEND 1,2,8,5,V150%
+	'Goes to *ERROR if there is an error
+	IF E1%<0 THEN *ERROR
+GOTO *RECEIVE
+
+'Set speed of playback
+*SETSPEED
+	'Read the speed from the message
+	GETINT 1, MOVE_SPEED, 8
+'Receive the next packet
+GOTO *RESPONSE
+
+'Start playback or continue
+*PLAYBACK
+	'Read the start index
+	GETINT 1, PLAY_START, 8
+	'Read the end index
+	GETINT 1, PLAY_END, 12
+	'Read the end index
+	GETINT 1, PLAY_DIR, 16
+	'Playback is started
+	PROG_CMND=CMND_STARTPLAYBACK
+	
+'Receive the next packet
+GOTO *RESPONSE
+	
+*SETPOSE
+	L3% = STORE_FIRST_IDX
+	'Read bytes from buffer 1 to real L3%+[0..5] using bytes L4%+[20..40]
+	GETREAL 1, V![L3% + 0], 12
+	GETREAL 1, V![L3% + 1], 16
+	GETREAL 1, V![L3% + 2], 20
+	GETREAL 1, V![L3% + 3], 24
+	GETREAL 1, V![L3% + 4], 28
+	GETREAL 1, V![L3% + 5], 32
+	GETREAL 1, V![L3% + 6], 36
+	GETINT 1, POSE_INDEX, 40
+	
+	IF POSE_INDEX > -1
+		CURRENT_MOVE = POSE_INDEX
+	ENDIF	 
+
+	SET POSE_FLAG_O
+	'Pause until the POSE_FLAG_O remains 1
+	*WAITFORPOSE
+		PAUSE 50
+	IF POSE_FLAG_O=1 THEN *WAITFORPOSE
+
+GOTO *RESPONSE
+
+*STORE
+	'Read the amount of poses sent in the current package from buffer 1 starting from byte 12
+	GETINT 1, BATCH_SIZE, 12
+	'Read the store index from buffer 1 starting from byte 16
+	GETINT 1, STORE_IDX, 16
+	'Save the store start index for later readback
+	L2% = STORE_IDX
+	'Go through the batch
+	FOR L1% = 0 TO (BATCH_SIZE - 1) STEP 1
+		'Select the target real variable group start index: first store index + current item in the batch * 9
+		'9 is used to have better view in the monitor
+		L3% = (STORE_FIRST_IDX + L1% * 9)
+		'Select the source byte group start index: current item in the batch * 6 items * 4 bytes
+		L4% = L1% * 7 * 4
+		'Read bytes from buffer 1 to real L3%+[0..5] using bytes L4%+[20..40]
+		GETREAL 1, V![L3% + 0], 20 + L4%'X
+		GETREAL 1, V![L3% + 1], 24 + L4%'Y
+		GETREAL 1, V![L3% + 2], 28 + L4%'Z
+		GETREAL 1, V![L3% + 3], 32 + L4%'r
+		GETREAL 1, V![L3% + 4], 36 + L4%'p
+		GETREAL 1, V![L3% + 5], 40 + L4%'y
+		GETREAL 1, V![L3% + 6], 44 + L4%'J1
+	NEXT
+	
+	'The store can be executed. This output is connected to STORE_FLAG_I using soft PLC
+	SET STORE_FLAG_O
+	'Pause until the STORE_FLAG_O remains 1
+	*WAITFORSTORE
+		PAUSE 50
+	IF STORE_FLAG_O=1 THEN *WAITFORSTORE
+	
+	'Stepped one more than necessary
+	STORE_IDX=STORE_IDX-1 '(-1 because of the for loop in main program)
+
+GOTO *RESPONSE
+
+*ABORT
+	SET ABORT_FLAG_O
+GOTO *RESPONSE
+
+*ERROR
+	V100%=V100%+1
+	V101%=E1%
+	V102%=E2%
+	PAUSE 1000
+	SOCKCLOSE 1
+	PAUSE 1000
+'Receive the next packet
+GOTO *RESTART

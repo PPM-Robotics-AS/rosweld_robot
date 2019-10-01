@@ -1,0 +1,4 @@
+'ROSWELD WPS Arc start subprogram
+INCLUDE "WPSIO.INC"
+LETVI ARC_ON,1
+END

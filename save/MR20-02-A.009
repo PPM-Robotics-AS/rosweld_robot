@@ -1,0 +1,102 @@
+' PPM ROS-NACHI Driver main program 
+INCLUDE "VAR.INC"
+INCLUDE "WPSIO.INC"
+' Switch to the path pose file 
+USE _CURRENT
+' Reset for clean startup 
+CALLP 8
+*COMMAND
+' Robot state sent to the client 
+V_SPSPEED% = _TIME
+' Wait 0.01s 
+DELAY CMND_NOP.CMND_NOP_CURRENT
+' If the STORE_FLAG_O is set, go to the STORE function 
+IF O_CURRENTCMND_NOPCMND_NOP_TIME THEN *STORE_EXEC
+' If the POSE_FLAG_O is set, go to the POSE function 
+IF O_CURRENTCMND_NOPCMND_NOP_SPCURRENT THEN *POSE_EXEC
+' If the CMND_STARTPLAYBACK is the command, go to the PLAYBACK function 
+IF V_SPCURRENT%=_CURRENT THEN *STARTPLAYBACK
+GOTO *COMMAND
+*POSE_EXEC
+USE _VOLTAGE
+LETPOSE _CURRENT,V![_VOLTAGE8]
+GETPOSE V![_VOLTAGE8],_CURRENT
+' Force variable update 
+INH
+' Go to pose 
+MOVEX A=1, AC=0, SM=0, M1X, L, P[1], S=V8%, H=4, MS, M2X, P, P[1], S=V8%, H=1
+' The store execution is done. This output is connected to STORE_FLAG_I using soft PLC 
+RESET O_CURRENTCMND_NOPCMND_NOP_SPCURRENT
+GOTO *COMMAND
+' Store received data as poses 
+*STORE_EXEC
+USE _CURRENT
+' Go through all poses received in the batch 
+FOR L_CURRENT% = CMND_NOP TO (BATCH_SIZE-_CURRENT) STEP _CURRENT
+' Select the starting real: first ID to store + first batch id * 9 
+L_VOLTAGE% = _VOLTAGE8+L_CURRENT%*9
+' Set pose number STORE_IDX using L2% as the first value 
+LETPOSE V_SPFEED%,V![L_VOLTAGE%]
+' Get the saved pose to the same variables 
+' It reads 7 numbers 
+GETPOSE V![L_VOLTAGE%],V_SPFEED%
+' Step the store index to the next one 
+' We use a non-zero start array, this is why we have another index 
+V_SPFEED% = V_SPFEED%+_CURRENT
+NEXT
+' Force variable update 
+INH
+' Save poses to posefile 
+POSESAVE
+' The store execution is done. This output is connected to STORE_FLAG_I using soft PLC 
+RESET O_CURRENTCMND_NOPCMND_NOP_TIME
+GOTO *COMMAND
+' Plays the uploaded path 
+*STARTPLAYBACK
+USE _CURRENT
+' Reset command 
+V_SPCURRENT% = CMND_NOP
+' Set the robot state sent to the client 
+V_SPSPEED% = _CURRENT
+' If PLAY_START is < 1, we set it to 1 
+IF PLAY_START < _CURRENT
+PLAY_START = _CURRENT
+ENDIF
+' If PLAY_END is not set, or greater than STORE_IDX, it is set to STORE_IDX 
+IF V_CURRENTCMND_NOP% = -_CURRENT OR V_CURRENTCMND_NOP% > V_SPFEED%
+V_CURRENTCMND_NOP% = V_SPFEED%
+ENDIF
+' Starting the run 
+' Force variable update 
+INH
+' Go through the path points. The length of the path is relative to the whole path to be able to synch with the verify path. 
+FOR V_CURRENT% = PLAY_START TO V_CURRENTCMND_NOP% STEP V_CURRENT_CURRENT%
+MOVEX A=1, AC=0, SM=0, M1X, L, P[V1%], S=V8%, H=4, MS, M2X, P, P[V1%], S=V8%, H=1
+' start the arc 
+IF ARC_START_I=_CURRENT
+RESET ARC_START_O
+' IGNITE with ASV something 
+CALLP PRG_ARCSTART
+ENDIF
+' Update the arc if needed 
+IF ARC_UPDATE_I
+RESET ARC_UPDATE_O
+CALLP PRG_ARCSTART
+ENDIF
+' Aborts the movement if the ABORT_FLAG_O is set 
+IF I_CURRENTCMND_NOPCMND_NOP_VOLTAGE THEN *ABORT
+NEXT
+V_CURRENT% = V_CURRENT%-V_CURRENT_CURRENT%
+CALLP PRG_ARCSTOP
+' Force variable update 
+INH
+' Set the robot state sent to the client 
+V_SPSPEED% = _VOLTAGE
+GOTO *COMMAND
+' Called, when the robot movement is aborted 
+*ABORT
+CALLP PRG_ARCSTOP
+LETVI V_VOLTAGE_SPSPEED%,CMND_NOP
+' Reset the abort flag 
+RESET O_CURRENTCMND_NOPCMND_NOP_VOLTAGE
+GOTO *COMMAND

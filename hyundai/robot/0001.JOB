@@ -1,0 +1,96 @@
+Program File Format Version : 1.6  MechType: 98(HA006C-00)  TotalAxis: 6  AuxAxis: 0
+     REM Parking position 
+S1   MOVE P,S=60%,A=3,T=0  (489.845,11.473,775.292,-180.000,-4.492,-178.658,&H0008)
+     REM Reset the max pose index
+     V3%=0
+     REM Reset the speed
+     V4%=60
+     REM UDP setup
+     REM This IP is the controller IP
+     ENET1.IP="192.168.56.1"
+     ENET1.RPORT=12349
+     ENET1.LPORT=12340
+     ENET1.OPEN 1
+     CLR_RBUF ENET1
+     
+     *RECEIVE
+     IF ENET1.STATE<1 THEN *ERROR
+     REM Robot state is waiting for command
+     V6%=3
+     REM Wait for input for 60 secs, then reset the connection
+     INPUT ENET1,V1$,60,*ERROR
+     
+     REM Message structure:
+     REM 1: Seq
+     LV1%=VAL(MID$(V1$,1*5-4,5))
+     REM 2: Command
+     LV2%=VAL(MID$(V1$,2*5-4,5))
+     
+     IF LV2%=1 THEN *PLAYBACK
+     IF LV2%=2 THEN *STORE 
+     IF LV2%=4 THEN *SETSPEED 
+     
+     REM No suitable command
+     GOTO *ERROR
+     
+	 *SETSPEED
+     REM Command 4: SetSpeed
+     REM 3: New speed
+     V4%=VAL(MID$(V1$,3*5-4,5))
+	 GOTO *RECEIVE
+	 
+     *PLAYBACK
+     REM Command 1: Playback
+     REM 3: Start
+     LV3%=VAL(MID$(V1$,3*5-4,5))
+     REM 4: End
+     LV4%=VAL(MID$(V1$,4*5-4,5))
+     REM 5: Direction
+     LV5%=VAL(MID$(V1$,5*5-4,5))
+     
+     REM If the command wants to play all poses
+     IF LV4%=-1 THEN
+     LV4%=V3%
+     ENDIF
+     
+     REM Robot state is playback started
+     V6%=1
+     
+     FOR V5%=LV3% TO LV4% STEP LV5%
+S2   MOVE P,P[V5%],S=V4%%,A=3,T=0
+     NEXT
+     GOTO *RECEIVE
+     
+     *STORE
+     REM Command 2: Store
+     REM 3: Batch size
+     LV3%=VAL(MID$(V1$,3*5-4,5))
+     REM 4: Start pose index
+     LV4%=VAL(MID$(V1$,4*5-4,5))
+     REM 5..9: Pose 1
+     REM 10..14: Pose 2 and so on
+     
+     FOR V2%=0 TO LV3%-1 STEP 1
+     FOR V1%=0 TO 4 STEP 1
+     LV%[V1%+5]=VAL(MID$(V1$,21+(V2%*6+V1%)*5,5))
+     NEXT
+     P[V2%+LV4%]=(LV5%,LV6%,LV7%,LV8%,LV9%,LV10%,&H0008)
+     IF V3%<V2%+LV4% THEN
+     V3%=V2%+LV4%
+     ENDIF
+     NEXT
+     GOTO *RESPONSE
+     
+     *RESPONSE
+     REM Send back the seq
+     REM This IP is the other party's IP
+     ENET1.IP="192.168.56.100"
+     PRINT ENET1,LV2%,LV1%;
+     GOTO *RECEIVE
+     
+     *ERROR
+     ENET1.OPEN 0
+     DELAY 2
+     GOTO S0
+     END
+     

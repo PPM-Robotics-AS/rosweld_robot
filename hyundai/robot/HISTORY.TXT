@@ -1,0 +1,35 @@
+Entry Text File Format Version: 1.0
+_HISTORY.TXT( HISTORY OF EXECUTION )
+_Backup at 2019/1/6 15:05:24
+(Elapsed Time[usec])Messages----------
+
+
+
+
+
+(      0)========================================
+(      0) Hi5a Booting at 2019/1/6 15:03:06
+(      0)----------------------------------------
+(   4000)BD530CANData [33,33,00,00,F0,EF,02,FC,FF,FF,00,00]
+(      0)MotStateBackup [01,00,00,00,00,00]
+(      0)iMPTestStateBackup [00,00,00,00,00,00]
+(      0)_____{Error:E18103(0)} 
+(      0)AutoBackupForEvent
+(  43000)ExchangeFileName(G00.POS,TempFil0.POS)
+(      0)ExchangeFileName(G00.SFT,TempFil0.SFT)
+(      0)ExchangeFileName(ROBOT.VAR,TempFil0.VAR)
+( 347000)Operation mode has been changed to TEACH!
+(  10000)Received [R][Set] or [R][0][Set]
+(      0)Clear playback(T:0) execution_____
+(      0)Old:CallStack[R0/M0]
+(      0)Old:Moving_PSF=(P0/S0/F0), RunningPSF=(P0/S0/F0)
+(      0)New:Moving_PSF=(P0/S0/F0), RunningPSF=(P0/S0/F0)
+(      0)New:CallStack[R0/M0]
+(      0)^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(=Stamp=)[2019/1/6 15:03:25](+18700000us)
+(      0)Hi5TP process started______
+
+(=Stamp=)[2019/1/6 15:03:41](+15100000us)
+(      0)Hi5TP process started______
+
+

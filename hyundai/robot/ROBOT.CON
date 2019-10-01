@@ -1,0 +1,762 @@
+'Entry Text File Format Version: 1.0
+'Header=CON:TE=048v07.70
+
+#001 Condition set
+	-Playback mode=1<1Step,1Cycle,Continuous>
+	-Step go/back max speed=200
+	-Step go/back function execute=1<Off,On,I On>
+	-Playback speed rate=100
+	-Robot lock=0<Disable,Enable>
+	-Interpolation base=0<Robot,Station>
+	-User coordinate=0
+	-Step go/back path-recovery=2<Confirm,Disable,Enable>
+	-Function re-execution while step trace=1<Disable,Enable>
+
+#002 Application condition set
+	-Search reference point record=0<Off,On>
+	-Search range=0.0
+	-DO clear (discarded)=0<Disable,Enable>
+	-Online shift register clear (discarded)=0<Disable,Enable>
+	-PLC Run mode=4<Stop,R-Stop,R-Run,Run,OFF>
+
+#003 User parameter
+	-Default Pose=0<Base,Robot,Angle,Encoder,U,Un>
+	-Auto mode cursor change (discarded)=0<Disable,Enable>
+	-Confirm command delete=1<Disable,Enable>
+	-WAIT command release=0<Disable,Enable>
+	-Strobe signal use=0<Disable,Enable>
+	-Max cursor position ratio (discarded)=80
+	-Collision sensor treat=0<E-Stop,Stop>
+	-Collision sensor signal logic=1<Posi,Nega>
+	-Playback program external update=0<Disable,Enable>
+	-Manual operation when stop signal in=1<Disable,Enable>
+	-P* coordinate recording method=0<Base,Robot,Angle,Encoder,U,Un>
+	-P* selection method=0<Command,Current>
+	-Teach pendant disconnect=0<Disable,Enable>
+	-Teach pendant watchdog time=1200<500~20000>
+	-Prohibit edit in Prog1~N=0<0~9999>
+	-Teach pendant sharing=255
+	-History Print Level=1<0~2>
+	-File Variable Range Check=1<0~1>
+
+#004 Control environment setting
+	-Return to the previous position use=0<Disable,Enable>
+	-Return length[mm]=10
+	-Error detection length[mm]=100
+	-Program end signal output time[sec]=0.0
+	-Interlock error time[sec]=60
+	-Error output port=0<Disable,Port1,Port2>
+	-Error output data=2<Disable,8Bit,16Bit>
+	-Power saving use=1<Disable,Enable>
+	-Waiting time[min]=5.0
+	-Gain change at low speed use=0<Disable,Enable>
+	-Speed for interpolation off[%]=2
+	-Speed for interpolation on[mm/sec]=50
+	-PLC execution time setting[msec]=2.0
+	-Position error check in robot waiting use (discarded)=0<Disable,Enable>
+	-Detection level[bit] (discarded)=100
+	-MODBUS transmission mode=0<ASCII,RTU>
+	-MODBUS slave address=1
+	-Reserved=0<Disable,Enable>
+	-Cooling pan off time=15
+	-Path recovery limit=500
+	-Path recovery angle limit=30
+	-Gravity Compensation Enable=0<Disable,Enable>
+
+#005 Input signal attribute<Number,Logic,Name,Event,Oper>
+	- 1=24,1,External Stop,0,0
+	- 2=255,1,Remote Mode,0,0
+	- 3=256,1,Auto Mode,0,0
+	- 4=0,0,,0,0
+	- 5=0,0,,0,0
+	- 6=0,0,,0,0
+	- 7=0,0,,0,0
+	- 8=0,0,,0,0
+	- 9=0,0,,0,0
+	-10=0,0,,0,0
+	-11=0,0,,0,0
+	-12=0,0,,0,0
+	-13=0,0,,0,0
+	-14=0,0,,0,0
+	-15=0,0,,0,0
+	-16=0,0,,0,0
+	-17=0,0,,0,0
+	-18=0,0,,0,0
+	-19=0,0,,0,0
+	-20=0,0,,0,0
+	-21=0,0,,0,0
+	-22=0,0,,0,0
+	-23=0,0,,0,0
+	-24=0,0,,0,0
+	-25=0,0,,0,0
+	-26=0,0,,0,0
+	-27=0,0,,0,0
+	-28=0,0,,0,0
+	-29=0,0,,0,0
+	-30=0,0,,0,0
+	-31=0,0,,0,0
+	-32=0,0,,0,0
+	-33=0,0,,0,0
+	-34=0,0,,0,0
+	-35=0,0,,0,0
+	-36=0,0,,0,0
+	-37=0,0,,0,0
+	-38=0,0,,0,0
+	-39=0,0,,0,0
+	-40=0,0,,0,0
+	-41=0,0,,0,0
+	-42=0,0,,0,0
+	-43=0,0,,0,0
+	-44=0,0,,0,0
+	-45=0,0,,0,0
+	-46=0,0,,0,0
+	-47=0,0,,0,0
+	-48=0,0,,0,0
+
+#006 Output signal attribute<Number,Logic,Count,On time,Off time,Name,Power on condition>
+	- 1=0,0,0,0.00,0.00,,0
+	- 2=0,0,0,0.00,0.00,,0
+	- 3=0,0,0,0.00,0.00,,0
+	- 4=0,0,0,0.00,0.00,,0
+	- 5=0,0,0,0.00,0.00,,0
+	- 6=0,0,0,0.00,0.00,,0
+	- 7=0,0,0,0.00,0.00,,0
+	- 8=0,0,0,0.00,0.00,,0
+	- 9=0,0,0,0.00,0.00,,0
+	-10=0,0,0,0.00,0.00,,0
+	-11=0,0,0,0.00,0.00,,0
+	-12=0,0,0,0.00,0.00,,0
+	-13=0,0,0,0.00,0.00,,0
+	-14=0,0,0,0.00,0.00,,0
+	-15=0,0,0,0.00,0.00,,0
+	-16=0,0,0,0.00,0.00,,0
+	-17=0,0,0,0.00,0.00,,0
+	-18=0,0,0,0.00,0.00,,0
+	-19=0,0,0,0.00,0.00,,0
+	-20=0,0,0,0.00,0.00,,0
+	-21=0,0,0,0.00,0.00,,0
+	-22=0,0,0,0.00,0.00,,0
+	-23=0,0,0,0.00,0.00,,0
+	-24=0,0,0,0.00,0.00,,0
+	-25=0,0,0,0.00,0.00,,0
+	-26=0,0,0,0.00,0.00,,0
+	-27=0,0,0,0.00,0.00,,0
+	-28=0,0,0,0.00,0.00,,0
+	-29=0,0,0,0.00,0.00,,0
+	-30=0,0,0,0.00,0.00,,0
+	-31=0,0,0,0.00,0.00,,0
+	-32=0,0,0,0.00,0.00,,0
+	-33=0,0,0,0.00,0.00,,0
+	-34=0,0,0,0.00,0.00,,0
+	-35=0,0,0,0.00,0.00,,0
+	-36=0,0,0,0.00,0.00,,0
+	-37=0,0,0,0.00,0.00,,0
+	-38=0,0,0,0.00,0.00,,0
+	-39=0,0,0,0.00,0.00,,0
+	-40=0,0,0,0.00,0.00,,0
+	-41=0,0,0,0.00,0.00,,0
+	-42=0,0,0,0.00,0.00,,0
+	-43=0,0,0,0.00,0.00,,0
+	-44=0,0,0,0.00,0.00,,0
+	-45=0,0,0,0.00,0.00,,0
+	-46=0,0,0,0.00,0.00,,0
+	-47=0,0,0,0.00,0.00,,0
+	-48=0,0,0,0.00,0.00,,0
+
+#007 Input signal assign
+	-External start=23
+	-External stop=0
+	-External program select=25,26,27,28,29,30,31,32
+	-Program strobe signal use=0
+	-Binary or discrete=0
+	-External reset=0
+	-Low speed command=0
+	-Collision Sensor=0
+	-Error/alarm signal clear=0
+	-Remote mode=255
+	-Manual mode=0
+	-Auto mode=256
+	-Joystick mode=0
+	-Door Lock Safety Switch=0
+	-Release Screen Save=0
+
+#008 Output signal assign
+	-Weld alarm=37,0,0,0,0,0,0,0
+	-Stick alarm=38,0,0,0,0,0,0,0
+	-Program end=26,0,0,0,0,0,0,0
+	-Synthetic error=27
+	-Emergency stop=0
+	-Manual mode=0
+	-Collision sensor=0
+	-Step set alarm=0,0,0,0,0,0,0,0
+	-Interlock alarm=28,0,0,0,0,0,0,0
+	-Operation error=0
+	-Program acknowledge=0
+	-External reset acknowledge=0
+	-Starting=29,0,0,0,0,0,0,0
+	-Low speed mode=0
+	-Auto mode=30
+	-Motor on=0
+	-Robot ready complete=31
+	-Error output=0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+	-Error output select=0
+	-Error output strobe=0
+	-Program echo=0,0,0,0,0,0,0,0
+	-Robot lock state=0
+	-Fieldbus alarm=0
+	-Fieldbus idle=0
+	-Battery drop=0
+	-Remote mode=0
+	-Holding=0,0,0,0,0,0,0,0
+	-Robot Moving=0
+	-Torque1=0,0,0,0,0,0,0,0
+	-Torque2=0,0,0,0,0,0,0,0
+	-Torque3=0,0,0,0,0,0,0,0
+	-Torque4=0,0,0,0,0,0,0,0
+	-Torque5=0,0,0,0,0,0,0,0
+	-Torque6=0,0,0,0,0,0,0,0
+	-Warning=0
+	-Grease Supply Alarm=0
+	-Working Average Torque Alarm=0
+	-Motor On Ready in Remote Auto Mode=0
+	-External Emergency stop=0
+
+#009 Serial ports
+	-Port1=6,1,0,0,0,0,0
+	-Port2=6,1,0,0,0,0,1
+
+#010 Robot ready condition
+	-Motor on=1
+	-Step(AUTO)=0
+	-Cycle(AUTO)=1
+	-Continue(AUTO)=0
+	-Remote control=1
+	-External stop assign=1
+	-Starting=0
+	-Interlock wait=0
+
+#011 Home position
+       ' Home pose 1
+	-OnOff=0<Disable,Enable>
+	-Comment=Home position 1
+	-Output signal=32
+	-Axis pose=0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000
+	-Range=0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500
+       ' Home pose 2
+	-OnOff=0<Disable,Enable>
+	-Comment=Home position 2
+	-Output signal=0
+	-Axis pose=0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000
+	-Range=0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500
+       ' Home pose 3
+	-OnOff=0<Disable,Enable>
+	-Comment=Home position 3
+	-Output signal=0
+	-Axis pose=0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000
+	-Range=0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500
+       ' Home pose 4
+	-OnOff=0<Disable,Enable>
+	-Comment=Home position 4
+	-Output signal=0
+	-Axis pose=0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000
+	-Range=0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500
+       ' Home pose 5
+	-OnOff=0<Disable,Enable>
+	-Comment=Home position 5
+	-Output signal=0
+	-Axis pose=0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000
+	-Range=0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500
+       ' Home pose 6
+	-OnOff=0<Disable,Enable>
+	-Comment=Home position 6
+	-Output signal=0
+	-Axis pose=0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000
+	-Range=0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500
+       ' Home pose 7
+	-OnOff=0<Disable,Enable>
+	-Comment=Home position 7
+	-Output signal=0
+	-Axis pose=0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000
+	-Range=0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500
+       ' Home pose 8
+	-OnOff=0<Disable,Enable>
+	-Comment=Home position 8
+	-Output signal=0
+	-Axis pose=0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000
+	-Range=0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500,0.500
+
+#012 Shift limit
+	-X=200.000
+	-Y=200.000
+	-Z=200.000
+	-RX=20.000
+	-RY=20.000
+	-RZ=20.000
+
+#013 User key setting
+	-Data=547,548,541,549,550,543,542
+
+#014 User coordinate register <Program,OrgX,OrgY,OrgZ,XDirX,XDirY,XDirZ,YDirX,YDirY,YDirZ,ZDirX,ZDirY,ZDirZ>
+	- 1=0,0.0000,0.0000,0.0000,1.00000000,0.00000000,0.00000000,0.00000000,1.00000000,0.00000000,0.00000000,0.00000000,1.00000000
+	- 2=0,0.0000,0.0000,0.0000,1.00000000,0.00000000,0.00000000,0.00000000,1.00000000,0.00000000,0.00000000,0.00000000,1.00000000
+	- 3=0,0.0000,0.0000,0.0000,1.00000000,0.00000000,0.00000000,0.00000000,1.00000000,0.00000000,0.00000000,0.00000000,1.00000000
+	- 4=0,0.0000,0.0000,0.0000,1.00000000,0.00000000,0.00000000,0.00000000,1.00000000,0.00000000,0.00000000,0.00000000,1.00000000
+	- 5=0,0.0000,0.0000,0.0000,1.00000000,0.00000000,0.00000000,0.00000000,1.00000000,0.00000000,0.00000000,0.00000000,1.00000000
+	- 6=0,0.0000,0.0000,0.0000,1.00000000,0.00000000,0.00000000,0.00000000,1.00000000,0.00000000,0.00000000,0.00000000,1.00000000
+	- 7=0,0.0000,0.0000,0.0000,1.00000000,0.00000000,0.00000000,0.00000000,1.00000000,0.00000000,0.00000000,0.00000000,1.00000000
+	- 8=0,0.0000,0.0000,0.0000,1.00000000,0.00000000,0.00000000,0.00000000,1.00000000,0.00000000,0.00000000,0.00000000,1.00000000
+	- 9=0,0.0000,0.0000,0.0000,1.00000000,0.00000000,0.00000000,0.00000000,1.00000000,0.00000000,0.00000000,0.00000000,1.00000000
+	-10=0,0.0000,0.0000,0.0000,1.00000000,0.00000000,0.00000000,0.00000000,1.00000000,0.00000000,0.00000000,0.00000000,1.00000000
+
+#015 Stationary tool coordinate <X,Y,Z>
+	- 0=0.0,1000.0,0.0
+	- 1=0.0,1000.0,0.0
+	- 2=0.0,1000.0,0.0
+	- 3=0.0,1000.0,0.0
+
+#016 Reserved program start
+	-Register number=0<Disable,20EA,1EA>
+	-Program input type=1<External,Internal>
+	-Treat for registered program exist=0
+	-Reseved program all execution=0
+	-Input signal=0,0,0,0,0,0,0
+	-Output signal=0,0,0,0,0,0,0
+	-Program number=0,0,0,0,0,0,0
+
+#017 License key registration
+	-License key=0
+	-Arc sensor=0<Disable,Enable>
+	-Laser vision sensor=0<Disable,Enable>
+	-Robot coorperate control=0<Disable,Enable>
+	-Auto touch compensation=0<Disable,Enable>
+	-Embedded Fieldbus=0<Disable,Enable>
+	-Spline Interpolation=0<Disable,Enable>
+
+#018 Arc application
+	-Arc Welding Data Save=0
+	-Inching speed[slow,fast]=5,50
+	-Assign welding current port=1
+	-Assign welding voltage port=2
+	-Assign [Arc On] state output=0
+	-Assign [Arc On] inhibit external input=0
+	-Assign coolant state input=0
+	-Welder error state input=1<Disable,Positive,Negative>
+	-Welding wire state input=0<Disable,Positive,Negative>
+	-Gas pressure state input=0<Disable,Positive,Negative>
+	-Inching output at retract=0<Disable,Enable>
+	-Assign input port of welding current=0
+	-Autosave when I/V modify=0<Disable,Enable>
+	-Auto Monitoring Setting when Arc Welding=0<Disable,Enable>
+	-Digital Filter for Arc Sensing=1.0
+	-Filter for High Weight Arc Torch=1
+	-Reserved 1 Analog Out Port=3
+	-Reserved 2 Analog Out Port=4
+	-Allow Arc Welding In Manual Mode=0
+	-Input Data Type For Sensing=0
+	-Analog Sensing Data Input Port=0
+	-Sensing Data Endianness=0
+	-Digital Sensing Data Input Port=0
+	-Input Port Num For Sensing=8
+	-Maximum Value Of Sensing=10.0
+	-Minimum Value Of Sensing=0.0
+	-Maximum Range Of Input Data=255
+	-Minimum Range Of Input Data=0
+	-Welding CND Type For Sensing=0
+	-Arc Welding Data is cleared after Welding=0
+	-SensorAWDM(Arc Welding Data Monitoring) Communication Method=0
+	-SensorAWDM Data Type=0
+	-SensorAWDM Save Cycle=100
+	-SensorAWDM Analog Current Input Port=1
+	-SensorAWDM Analog Voltage Input Port=2
+	-SensorAWDM Analog Current Characteristic(A)=400.0
+	-SensorAWDM Analog Current Characteristic(V)=8.0
+	-SensorAWDM Analog Voltage Scale=10.0
+	-SensorAWDM Digital Word Endianess=0
+	-SensorAWDM Digital Current Port=0
+	-SensorAWDM Digital Voltage Port=0
+	-SensorAWDM Digital Current Port Assignment=16
+	-SensorAWDM Digital Voltage Port Assignment=16
+	-SensorAWDM Digital Current Scale=50.0
+	-SensorAWDM Digital Voltage Scale=10.0
+	-SensorAWDM Digital Physical(Input) Min Value=-10.0
+	-SensorAWDM Digital Physical(Input) Max Value=10.0
+	-SensorAWDM Digital Transmission(Output) Min Value=-2048
+	-SensorAWDM Digital Transmission(Output) Max Value=2047
+	-Speed ratio watch function in Arc welding zone=0
+	-Reserved variable 1 for Arc application=0
+	-Reserved variable 2 for Arc application=0
+	-Reserved variable 3 for Arc application=0
+	-Reserved variable 4 for Arc application=0
+
+#019 Conveyor configuration setting
+	-Conveyor Syncronization=0,0
+	-Conveyor type=0,0
+	-Conveyor constant=1000,1000
+	-Sampling time=1.00,1.00
+	-Pulse error allowed count=0,0
+	-Conveyor max frequency=10.0,10.0
+	-Conveyor max speed=150.0,150.0
+	-Robot operation when conveyor stop=1,1
+	-Synchronous when robot stop=0,0
+	-System error detect for synchronous=0,0
+	-Max allowed workpiece number=1,1
+	-Treatment for over allowed workpiece=0,0
+	-Treatment for cycle mode=0,0
+	-Pulse input type=0,0
+	-Pulse counting type=1,1
+	-Linear conveyor position=90.000,0.000,90.000,0.000
+	-Circular conveyor position=0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000
+	-Input channel=0,1
+
+#020 Conveyor syncronization input signal assign
+	-Conveyor running=0,0
+	-Conveyor data clear=0,0
+	-Conveyor limit switch=0,0
+
+#021 Conveyor syncronization output signal assign
+	-Conveyor normal mode=0
+	-Conveyor simulation mode=0
+	-Conveyor test mode=0
+	-Conveyor tracking on=0,0
+	-Conveyor run signal off detect=0,0
+
+#022 Voltage output for speed
+	-Minimum output voltage=0.0
+	-Maximum output voltage=0.0
+	-Minimum speed=0.0
+	-Maximum speed=0.0
+	-Output port=0
+
+#024 Cube interference check condition setting
+	-Function use=0<Disable,Enable>
+	-Tool detection=0<Disable,Enable>
+	-Detection in cooperative control=0<Disable,Enable>
+	-Communication method=0<DIO,HiNet>
+	-Deadlock avoidance=0<Stop,Avoid pose>
+
+#025 Cube area setting
+	-Cube entrance output signal=0,0,0,0,0,0,0,0
+	-Entrance prohibition input signal=0,0,0,0,0,0,0,0
+	-Setting method=0,0,0,0,0,0,0,0
+	-Coordinate number=0,0,0,0,0,0,0,0
+	-Start pose(X)=0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+	-Start pose(Y)=0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+	-Start pose(Z)=0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+	-End pose(X)=0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+	-End pose(Y)=0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+	-End pose(Z)=0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+
+#026 Common coordination for cooperative control
+	-Common coordination setup status=0
+	-Position=0.000,0.000,0.000,0.000,0.000,0.000
+
+#027 Cooperate Control Parameter
+	-Function use=0
+	-Robot number=1
+	-Group number=1
+
+#028 HRLadder monitoring setting
+	-Port number=800
+	-Maximum number of client=2
+
+#031 Macro inspection system cube setting
+	-Minus_Holder Point=-1411.0,-60.0,-1260.0
+	-Plus_Holder Point=1400.0,250.0,1250.0
+	-Minus_Base Square Point=0.0,-1100.0,0.0
+	-Plus_Base Square Point=0.0,650.0,500.0
+	-Minus_Rotation Square Point=0.0,-430.0,0.0
+	-Plus_Rotation Square Point=0.0,430.0,900.0
+	-Minus_Cubic Point=-2400.0,-1600.0,350.0
+	-Plus_Cubic Point=2400.0,1700.0,3400.0
+	-Y_Mirror Point=0.0,2153.0,2900.0
+	-Z_Mirror Point=0.0,880.0,3630.0
+	-Limit(-) of Holder(R3-Axis)=-140.0
+	-Limit(+) of Holder(R3-Axis)=140.0
+
+#032 Joystick mode: Input Signal Setting
+	-HolderX+=50057
+	-HolderX-=50058
+	-HolderY+=50059
+	-HolderY-=50060
+	-HolderZ+=50061
+	-HolderZ-=50062
+	-HolderRz+=50063
+	-HolderRz-=50064
+	-HolderRx+=50065
+	-HolderRx-=50066
+	-HolderOy+=50067
+	-HolderOy-=50068
+	-Level 4=0
+	-Level 3=50069
+	-Level 2=50070
+	-Level 1=50071
+	-Z0 Origin=50072
+
+#033 Conveyor public parameter
+	-Conveyor operation mode=0<Normal,Simulation,Test>
+
+#034 Macro Inspection System User Settings
+	-Arm Interference Check=1<Disable,Enable>
+	-Reserved0=0
+	-Reserved1=0
+	-Reserved2=0
+
+#035 Digital Filter for Analog Input
+	-Digital Filter: Board #1=0,0,0,0,0,0,0,0
+	-Digital Filter: Board #2=0,0,0,0,0,0,0,0
+	-Digital Filter: Board #3=0,0,0,0,0,0,0,0
+	-Digital Filter: Board #4=0,0,0,0,0,0,0,0
+
+#036 DeviceNet Master Stack Settings
+	-OnOff=0<Disable,Enable>
+	-Baudrate=2<0:125K,1:250K,2:500K>
+	-CAN Port=0<0:CAN 0(BD511),2:CAN 2(BD574)>
+
+#037 Auto Backup
+	-OnOff=1<0:Disable,1:Enable>
+	-The Maximum Number of Backup Versions=3<1~50>
+	-Day=5,0,0,0<0:Off,1:Everyday,2:Sunday~8:Saturday>
+	-Hour=19,0,0,0<00~23>
+	-Minute=30,0,0,0<00~59>
+	-Backup on Mode Changed=0<0:Disable,1:Confirm,2:Without-Confirm>
+	-InDoBackup=0
+	-OutOnBackup=0
+	-OutBackupErr=0
+	-FileType=0,0,0,0,0<0:All, 1:except JOB/LAD>
+
+#038 Command independance execution
+       ' Index 1
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 2
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 3
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 4
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 5
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 6
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 7
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 8
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 9
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 10
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 11
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 12
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 13
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 14
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 15
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 16
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 17
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 18
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 19
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 20
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 21
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 22
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 23
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+       ' Index 24
+	-Input signal=0
+	-Command=
+	-Target pose=0.000
+	-Executing output signal=0
+	-Complete output signal=0
+
+#039 Key signal output
+	-Label 1=
+	-Label 2=
+	-Label 3=
+	-Label 4=
+	-Label 5=
+	-Label 6=
+	-Label 7=
+	-Signal normal=0,0,0,0,0,0,0
+	-Signal inverse=0,0,0,0,0,0,0
+	-Toggle=0,0,0,0,0,0,0
+	-Permit on AutoMode=0,0,0,0,0,0,0
+	-Off on ModeChange=0,0,0,0,0,0,0
+
+#043 DeviceNet Slave Stack Settings
+	-OnOff=0<Disable,Enable>
+	-CAN Port=2<0:Port 0,2:Port 2>
+	-Baudrate=0<0:125K,1:250K,2:500K>
+	-MacID=63<0~63>
+	-IOSize=16<1~16>
+	-Input Clear=0<0:Clear 0,1:Hold>
+
+#044 RHemming force control
+	-Function=0
+	-Sensor type=0
+	-Input channel=0
+	-Analog port=1
+	-Digital signal=0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+	-Force unit=0 <0=kgf,1=N>
+	-Max moving distance=10.000
+
+#045 Remote IO
+	-OnOff=0<Disable,Enable>
+	-CAN Port=0<0:Port 0,2:Port 2,3:Port 3>
+	-Baudrate=3<0:125K,1:250K,2:500K,3:800K,4:1M>
+	-FN Number=3
+	-WD Time=100
+	-Module Code=255,255,255,255,255,255,255,255,255,255,255,255,255,255,255
+
+#046 Force control
+	-Function=0
+	-Sensor type=0
+	-Model Name=0
+
+#047 Joystick mode
+	-Type=0
+
+#048 Iterative Learning Control
+	-Function=0
+	-Cycle time reduction rate(%)=0
+
+#049 Playback speed auto control
+	-Function=0
+	-Low speed=10
+	-Original speed=10
+	-Low speed time=30
+	-Robot stop time=60
+	-Encoder temperature=0,0,0,0,0,0
+	-Encoder current temperature=0,0,0,0,0,0
+
+#050 Safety Mastering Test
+	-Use=1<0: Not used, 1:Used>
+	-Type=0
+	-Test interval=12
+	-Pre-alarm time=1
+	-Max time limit=1
+	-Input signal=0,0,0
+	-Output signal=0,0,0
+	-Group number=0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+	-Reference position=0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000
+	-Current position=0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.000
+	-State=0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+#051 LCD Safety Jog Zone Setting
+	-Zone1 Usage=0<0: Not used, 1:Used>
+	-Zone1[X_min]=0.000
+	-Zone1[X_max]=0.000
+	-Zone2 Usage=0<0: Not used, 1:Used>
+	-Zone2[X_min]=0.000
+	-Zone2[X_max]=0.000
+	-Zone3 Usage=0<0: Not used, 1:Used>
+	-Zone3[TH_min]=0.000
+	-Zone3[TH_max]=0.000
+	-Zone4 Usage=0<0: Not used, 1:Used>
+	-Zone4[L_min]=0.000
+	-Zone4[L_max]=0.000
+	-Zone5 Usage=0<0: Not used, 1:Used>
+	-Zone5[R_min]=0.000
+	-Zone5[R_max]=0.000
+

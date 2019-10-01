@@ -1,0 +1,120 @@
+REM "PPM ROS-OTC WPS Driver user task"
+REM "Copyright (C) 2018 PPM AS All rights reserved"
+REM "Balint Tahi, Csongor Horvath, Laszlo Nagy"
+INCLUDE "WPSIO.INC"
+
+*RESTART
+'Create socket number 5 using UDP
+SOCKCREATE 5,1
+'Set the port of socket 5 to 8002
+SOCKBIND 5,8002
+'Wait for connection using socket 5, comm port 6, with no timeout
+SOCKWAIT 5,6,0
+*RECEIVE
+'Receive from socket 5, to buffer 5, 260 bytes, 0 timeout
+'V151% will contain the length of the data received
+'Delete the CMD_WPS
+CMD_WPS=0
+SOCKRECV 5,5,260,0,V151%
+'Goes to *ERROR if there is an error
+IF E1%<0 THEN *ERROR
+
+'Read the SEQ_WPS sequence id from buffer 1 starting from byte 0
+GETINT 5, SEQ_WPS, 0
+'Read the command id from buffer 1 starting from byte 4
+GETINT 5, CMD_WPS, 4
+SWITCH CMD_WPS
+CASE 0'Send data about the robot's current state
+GOTO *UPDATE
+CASE 1
+GOTO *ARC_START
+CASE 2
+GOTO *ARC_STOP
+CASE 3
+GOTO *ARC_UPDATE
+CASE 4
+GOTO *SET_JOB_NUMBER
+CASE
+GOTO *ERROR
+ENDS
+'Receive the next packet
+GOTO *RECEIVE
+
+*RESPONSE
+	'LETVI V1%, 1
+	'Write the CMD_WPS to buffer 6 starting from byte 0
+	SETINT 6, CMD_WPS, 0
+	'Write the SEQ_WPS to buffer 6 starting from byte 4
+	SETINT 6, SEQ_WPS, 4
+	'Send data using socket 5, buffer 6, size: 8 bytes, 
+	'timeout: 5s, sent data size (V151%) - not used
+	SOCKSEND 5,6,8,5,V151%
+	'Goes to *ERROR if there is an error
+	IF E1%<0 THEN *ERROR
+	'Receive the next packet
+GOTO *RECEIVE
+
+*SET_JOB_NUMBER
+	'LETVI V1%, 3
+	GETINT 5, JOB_NR, 8
+	
+	'Send response
+GOTO *RESPONSE
+
+*ARC_STOP
+	'LETVI V1%, 4
+	RESET ARC_START_O
+	SET ARC_STOP_O
+	'Send response
+GOTO *RESPONSE
+
+*ARC_UPDATE	
+	'LETVI V1%, 5
+	'Set the current job number to the temp job number
+	LETVI JOB_NR, TMP_WPS_JOBNR
+	'Read the temp job nr TMP_WPS_JOBNR
+	SET ARC_UPDATE_O
+	'Send response
+GOTO *RESPONSE
+
+*UPDATE
+	'Write the CMD_WPS to buffer 6 starting from byte 0
+	SETINT 6, CMD_WPS, 0
+	'Write the SEQ_WPS to buffer 6 starting from byte 4
+	SETINT 6, SEQ_WPS, 4
+	
+	'Setup actual parameters from the WPS
+	V24! = GETSIGB(34,1)+10*GETSIGB(35,1)+100*GETSIGB(36,1)'Act. Amp
+	V25! = 0.1*GETSIGB(38,1)+GETSIGB(39,1)+10*GETSIGB(40,1)'Act. Volt
+	
+	SETREAL 6, V24!, 8
+	SETREAL 6, V25!, 12
+	SETINT 6, FEED_A, 16
+	SETINT 6, ARC_A, 20
+	SETINT 6, ARC_ON, 24
+	SETINT 6, JOB_NR, 28
+	'Send data using socket 5, buffer 6, size: 32 bytes, timeout: 5s, sent data size (V151%) - not used
+	SOCKSEND 5,6,32,5,V151%
+	'Goes to *ERROR if there is an error
+	IF E1%<0 THEN *ERROR
+'Receive the next packet
+GOTO *RECEIVE
+
+*ARC_START
+	'LETVI V1%, 2
+	GETINT 5, JOB_NR, 8
+	SET ARC_START_O
+	
+	'Send response
+GOTO *RESPONSE
+
+*ERROR
+	'LETVI V1%, 6
+	V100%=V100%+1
+	V101%=E1%
+	V102%=E2%
+	PAUSE 1000
+	SOCKCLOSE 5
+	PAUSE 1000
+'Receive the next packet
+GOTO *RESTART

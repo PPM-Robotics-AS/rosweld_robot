@@ -1,0 +1,118 @@
+'PPM ROS-NACHI Driver main program
+INCLUDE "VAR.INC"
+INCLUDE "WPSIO.INC"
+'Switch to the path pose file
+USE PATH_FILENO
+'Reset for clean startup
+CALLP 8
+
+*COMMAND	
+	'Robot state sent to the client
+	ROBOT_STATE=STATE_WAITINGFORCOMMAND
+	'Wait 0.01s
+	DELAY 0.01
+	'If the STORE_FLAG_O is set, go to the STORE function
+	IF STORE_FLAG_O THEN *STORE_EXEC
+	'If the POSE_FLAG_O is set, go to the POSE function
+	IF POSE_FLAG_O THEN *POSE_EXEC
+	'If the CMND_STARTPLAYBACK is the command, go to the PLAYBACK function
+	IF PROG_CMND=CMND_STARTPLAYBACK THEN *STARTPLAYBACK
+GOTO *COMMAND
+
+*POSE_EXEC
+	USE POSE_FILENO
+	LETPOSE 1,V![STORE_FIRST_IDX]
+	GETPOSE V![STORE_FIRST_IDX],1
+	'Force variable update
+	INH
+	'Go to pose
+	MOVEX A=1,AC=0,SM=0,M1X,L,P[1],S=MOVE_SPEED,H=4,MS,M2J,P,P[1],S=MOVE_SPEED,H=1
+	'The store execution is done. This output is connected to STORE_FLAG_I using soft PLC
+	RESET POSE_FLAG_O
+GOTO *COMMAND
+
+'Store received data as poses
+*STORE_EXEC
+	USE PATH_FILENO
+	'Go through all poses received in the batch
+	FOR L1% = 0 TO (BATCH_SIZE - 1) STEP 1
+		'Select the starting real: first ID to store + first batch id * 9
+		L2% = STORE_FIRST_IDX + L1% * 9
+		'Set pose number STORE_IDX using L2% as the first value
+		LETPOSE STORE_IDX,V![L2%]
+		'Get the saved pose to the same variables
+		'It reads 7 numbers
+		GETPOSE V![L2%],STORE_IDX
+		'Step the store index to the next one
+		'We use a non-zero start array, this is why we have another index
+		STORE_IDX=STORE_IDX+1
+	NEXT
+	'Force variable update
+	INH
+	'Save poses to posefile
+	POSESAVE
+	'The store execution is done. This output is connected to STORE_FLAG_I using soft PLC
+	RESET STORE_FLAG_O
+GOTO *COMMAND	
+
+'Plays the uploaded path
+*STARTPLAYBACK	
+	USE PATH_FILENO
+	'Reset command
+	PROG_CMND=CMND_NOP
+
+	'Set the robot state sent to the client
+	ROBOT_STATE=STATE_PLAYBACKSTARTED
+
+	'If PLAY_START is < 1, we set it to 1
+	IF PLAY_START < 1
+		PLAY_START = 1
+	ENDIF
+	
+	'If PLAY_END is not set, or greater than STORE_IDX, it is set to STORE_IDX
+	IF PLAY_END = -1 OR PLAY_END > STORE_IDX
+		PLAY_END = STORE_IDX
+	ENDIF		
+
+	'Starting the run
+	'Force variable update
+	INH
+
+	'Go through the path points. The length of the path is relative to the whole path to be able to synch with the verify path.
+	FOR CURRENT_MOVE=PLAY_START TO PLAY_END STEP PLAY_DIR
+        MOVEX A=1,AC=0,SM=0,M1X,L,P[CURRENT_MOVE],S=MOVE_SPEED,H=4,MS,M2J,P,P[CURRENT_MOVE],S=MOVE_SPEED,H=1
+		
+		'start the arc
+		IF ARC_START_I=1
+			RESET ARC_START_O
+			'IGNITE with ASV something
+			CALLP PRG_ARCSTART
+		ENDIF
+
+		'Update the arc if needed
+		IF ARC_UPDATE_I
+			RESET ARC_UPDATE_O
+			CALLP PRG_ARCSTART
+		ENDIF
+
+		'Aborts the movement if the ABORT_FLAG_O is set
+		IF ABORT_FLAG_I THEN *ABORT
+	NEXT
+	
+	CURRENT_MOVE = CURRENT_MOVE - PLAY_DIR
+
+	CALLP PRG_ARCSTOP
+	'Force variable update
+	INH
+
+	'Set the robot state sent to the client
+	ROBOT_STATE = STATE_PLAYBACKFINISHED
+GOTO *COMMAND
+
+'Called, when the robot movement is aborted
+*ABORT
+	CALLP PRG_ARCSTOP
+	LETVI ARC_ON,0
+	'Reset the abort flag
+	RESET ABORT_FLAG_O
+GOTO *COMMAND

@@ -1,0 +1,80 @@
+REM "Status NACHI"
+REM "Copyright (C) 2018 PPM AS All rights reserved"
+REM "Balint Tahi, Csongor Horvath, Laszlo Nagy"
+INCLUDE "VAR"
+
+*RESTART
+'Create socket number 1 using UDP
+SOCKCREATE 3,1
+'Set the port of socket 3 to 8001
+SOCKBIND 3,8001
+'Wait for connection using socket 3, comm port 4, with no timeout
+SOCKWAIT 3,4,0
+*RECEIVE
+'Receive from socket 3, to buffer 3, 260 bytes, 0 timeout
+'V150% will contain the length of the data received
+'Delete the CMD_STATUS_RD
+CMD_STATUS_RD=0
+SOCKRECV 3,3,260,0,V150%
+'Goes to *ERROR if there is an error
+IF E1%<0 THEN *ERROR
+
+'Read the SEQ_STATUS_RD sequence id from buffer 3 starting from byte 0
+GETINT 3, SEQ_STATUS_RD, 0
+'Read the command id from buffer 1 starting from byte 4
+GETINT 3, CMD_STATUS_RD, 4
+SWITCH CMD_STATUS_RD
+CASE 3'Send data about the robot's current state
+GOTO *UPDATE
+CASE
+GOTO *ERROR
+ENDS
+'Receive the next packet
+GOTO *RECEIVE
+
+*UPDATE
+	SETINT 4, CMD_STATUS_RD, 0
+	SETINT 4, SEQ_STATUS_RD, 4
+	'Speed, measured by the robot
+	SETREAL 4, SYSTEM!(300), 8
+	'finger x
+	SETREAL 4, SYSTEM!(810), 12
+	'finger y
+	SETREAL 4, SYSTEM!(811), 16
+	'finger z
+	SETREAL 4, SYSTEM!(812), 20
+	'finger Rr
+	SETREAL 4, SYSTEM!(815), 24
+	'finger Rp
+	SETREAL 4, SYSTEM!(814), 28
+	'finger Ry
+	SETREAL 4, SYSTEM!(813), 32
+	SETINT 4, CURRENT_MOVE, 36
+	SETINT 4, STORE_IDX, 40
+	SETINT 4, ROBOT_STATE, 44
+	'Mode (0 = teach, 1 = playback, 2 = high-speed teach)
+	SETINT 4, SYSTEM%(2), 48
+	'Joint coords
+	SETREAL 4, SYSTEM!(100), 52
+	SETREAL 4, SYSTEM!(101), 56
+	SETREAL 4, SYSTEM!(102), 60
+	SETREAL 4, SYSTEM!(103), 64
+	SETREAL 4, SYSTEM!(104), 68
+	SETREAL 4, SYSTEM!(105), 72
+	SETREAL 4, SYSTEM!(110), 76
+	'Send data using socket 3, buffer 4, size: 80 bytes, timeout: 5s, sent data size (V150%) - not used
+	SOCKSEND 3,4,80,5,V150%
+	'Goes to *ERROR if there is an error
+	IF E1%<0 THEN *ERROR
+'Receive the next packet
+GOTO *RECEIVE
+
+*ERROR
+	V100%=V100%+1
+	V101%=E1%
+	V102%=E2%
+	PAUSE 1000
+	SOCKCLOSE 3
+	PAUSE 1000
+'Receive the next packet
+GOTO *RESTART

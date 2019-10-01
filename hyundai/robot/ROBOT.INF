@@ -1,0 +1,77 @@
+Entry Text File Format Version: 1.0
+_ROBOT.INF( SYSTEM INFORMATION OF ROBOT CONTROLLER )
+_INF file made date   : 2019-01-06     15:03:03
+_INF file backup date : 2019/01/06     15:05:24
+
+=<< Body Information >>=================================
+     Robot type       =HA006C-00
+     Axis Number      =6[Axes]
+     Add Axis Number  =0[Axes]
+ 
+=<< Main Board Information >>==========================
+     Main S/W   =V40.15-00, 2017.03.31
+     Built it at Apr 13 2017, 10:09:19
+     Main B/D Serial Number = Hi5_VRC
+     Main B/D PLD = V0.0
+     Dip Switch=DB
+ 
+=<< T/P Information >>=================================
+     T/P Version=V32.21-00, 2016.09.09
+     OS Build   =V,    
+ 
+=<< DSP Board Information >>===========================
+     DSP1 S/W   =V06.99,    0020.12.31
+     DSP2 S/W   =V06.99,    0020.12.31
+     DSP3 S/W   =V00.00,    0000.00.00
+     DSP4 S/W   =V00.00,    0000.00.00
+     HW #1=BD544V99, PLD=00.05
+     HW #2=, PLD=00.00
+ 
+=<< I/O Board Information >>===========================
+ 
+=<< Display Of Run Time >>=============================
+     Run time   =0:00:00.00
+     Cycle time =0:00:00.00,      Cycle=0
+     Gun1 time  =0:00:00.00,      count=0
+     Gun2 time  =0:00:00.00,      count=0
+     Gun3 time  =0:00:00.00,      count=0
+     Gun4 time  =0:00:00.00,      count=0
+     Wait,DI waiting time =0:00:00.00
+     Timer waiting time   =0:00:00.00
+ 
+=<< Display Of Total Run Time >>=======================
+     Total run time    =0Days 0:00:00.00
+     Total cycle count =0
+     Gun1 time  =0Days 0:00:00.00,      count=0
+     Gun2 time  =0Days 0:00:00.00,      count=0
+     Gun3 time  =0Days 0:00:00.00,      count=0
+     Gun4 time  =0Days 0:00:00.00,      count=0
+     Wait,DI waiting time =0:00:00.00
+     Timer waiting time   =0:00:00.00
+     Motor on time        =0Days 0:00:00.00
+ 
+=<< Display Of Arc Data >>=============================
+  Arc On time (Cumulation)   =0:00:00.00
+  Arc On time (1 Cycle)      =0:00:00.00
+  Tip Use Hour(Limit)   =0 min(0 min)
+  Arc Retry count     = 0
+  Auto Stick Recovery = 0
+  Arc Off Overlap     = 0
+  Wire Off Overlap    = 0
+  Limit Over Overlap  = 0
+  Gas Off Overlap     = 0
+  Coolant Off Overlap = 0
+
+=<< Exception >>=======================================
+
+=<< Exception >>=======================================
+
+=<< System Characteristic Data >>=======================
+      U Ph,  V Ph,  i/ir,  I/Ir,  i/ip,  I/Ip, cnt i, cnt I, poerr, PoErr,  dtau,  dTAU, dtaur, dTAUR,  enct,  EncT, eFail,  mSpd,   RLexp,  RLrat,  tr_r,  tr_m,  Tr_r,  Tr_m,  GSMove, GSDay
+  1=  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,     0,     0, 0.00, 0.00, 0.00, 0.00,     0,     0,     0,     0,  0y  0d,    -1h,    -1,    -1,    -1,    -1,  0.000,     0
+  2=  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,     0,     0, 0.00, 0.00, 0.00, 0.00,     0,     0,     0,     0,  0y  0d,    -1h,    -1,    -1,    -1,    -1,  0.000,     0
+  3=  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,     0,     0, 0.00, 0.00, 0.00, 0.00,     0,     0,     0,     0,  0y  0d,    -1h,    -1,    -1,    -1,    -1,  0.000,     0
+  4=  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,     0,     0, 0.00, 0.00, 0.00, 0.00,     0,     0,     0,     0,  0y  0d,    -1h,    -1,    -1,    -1,    -1,  0.000,     0
+  5=  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,     0,     0, 0.00, 0.00, 0.00, 0.00,     0,     0,     0,     0,  0y  0d,    -1h,    -1,    -1,    -1,    -1,  0.000,     0
+  6=  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,     0,     0, 0.00, 0.00, 0.00, 0.00,     0,     0,     0,     0,  0y  0d,    -1h,    -1,    -1,    -1,    -1,  0.000,     0
+  6=  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,     0,     0, 0.00, 0.00, 0.00, 0.00,     0,     0,     0,     0,  0y  0d,    -1h,    -1,    -1,    -1,    -1,  0.000,     0

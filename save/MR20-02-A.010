@@ -1,0 +1,18 @@
+' PPM Touch execution 
+' INCLUDE  VAR.INC 
+' Switch to the calib pose file 
+USE 3
+' Move above the calibration point 
+MOVEX A=1, AC=0, SM=0, M1X, L, P[1], S=10, H=4, MS, M2X, P, P[1], S=10, H=1
+' Approach target calibration pose until it's touching 
+' SF0 1,1,1,1,0,3,20,0,10,MOVEX,M1X,P2,260,11,1,-1,1 
+' Catch sensor feedback NB! Escape step no! 
+WAIT i104,1,17
+' If Touch sensed, set output to confirm 
+SET O1006	'TOUCH_SENSED_O
+RESET O1005	'TOUCH_GO_FLAG_O
+END
+*ERRORHANDLER
+LETVI V102%,42
+RESET O1006	'TOUCH_GO_FLAG_O
+END
